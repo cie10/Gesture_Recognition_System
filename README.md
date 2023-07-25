@@ -16,20 +16,30 @@
     
     <img width="505" alt="image" src="https://github.com/cie10/Gesture_Recognition_System/assets/111051264/6b4b43d7-2bf0-4b06-b207-311fa3348a71">
    
- Step 1, 웹캠으로 영상을 입력 받는다.   
- Step 2, Mediapipe의 Pose Landmark Model을 활용하여 비디오 입력을 2D 이미지로 변환하고 33개의 랜드마크를 추출한다.   
- Step 3, 허리의 각도 변화량을 측정한다.   
- Step 4, 이전 단계에서의 조건이 충족되면 각도의 측정은 일시 정시 한 후 몸의 움직임 여부를 확인하고, 지정된 지속시간을 초과하면 낙상으로 판단한다. 
+ Step 1) 웹캠으로 영상을 입력 받는다.   
+ Step 2) Mediapipe의 Pose Landmark Model을 활용하여 비디오 입력을 2D 이미지로 변환하고 33개의 랜드마크를 추출한다.   
+ Step 3) 허리의 각도 변화량을 측정한다.   
+ Step 4) 이전 단계에서의 조건이 충족되면 각도의 측정은 일시 정시 한 후 몸의 움직임 여부를 확인하고, 지정된 지속시간을 초과하면 낙상으로 판단한다. 
 
 
 
 ####  - 허리 각도 변화량 측정  
 
-   <img width="481" alt="image" src="https://github.com/cie10/Gesture_Recognition_System/assets/111051264/32eab360-65c5-4695-a1c7-73f7ef4c8647">
+   <img width="481" alt="image" src="https://github.com/cie10/Gesture_Recognition_System/assets/111051264/32eab360-65c5-4695-a1c7-73f7ef4c8647"> 
+   
+ Step 1) 좌우 어깨의 하강 여부를 판단하기 위해 1번과 12번 좌표의 y값을 비교  
+ Step 2) 오른쪽 어깨 내려갔을 때: 12번-24번-26번 좌표로 이루어진 각을 변수에 저장  
+    왼쪽 어깨 내려갔을 때: 11번-23번-25번 좌표로 이루어진 각을 변수에 저장   
+ Step 3) 해당 변수에 저장된 값을 이전 프레임에서 저장된 값과 비교하여 변화량을 계산한 후 리스트에 저장  
+ Step 4) 리스트에 저장된 값의 평균값을 계산한 후 임계 값을 넘으면 위험 감지한 후 다음 조건으로 넘어감
+
+
 
 ####  - 움직임 여부의 지속시간 측정
+ 움직임의 여부를 판단하기 위해 좌우 어깨, 손목, 무릎의 좌표인 11, 12, 15, 16, 25, 26 번을 사용하였다. 1초당 프레임의 개수는 약 30개 이므로, 180개의 정보를 저장하여 6초동안의 움직임의 여부를 판단하고자 하였다. 이전 프레임과 비교하여 변화량을 리스트에 저장하여 평균 변화량이 임계 값을 넘으면 낙상이 감지된다. 
 
-   ![image](https://github.com/cie10/Gesture_Recognition_System/assets/111051264/d68d436c-e162-4475-8171-ef66eb498819)
+ ![image](https://github.com/cie10/Gesture_Recognition_System/assets/111051264/d50fb813-9fe9-4a24-9293-cfbafa63e0d6)
+
 
 
 
